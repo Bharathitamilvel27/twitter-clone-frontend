@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Search.css';
+import { API_BASE_URL, buildAssetUrl } from '../utils/constants';
 
 function Search() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -21,7 +22,7 @@ function Search() {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(
-          `http://localhost:5000/api/tweets/search?q=${encodeURIComponent(searchQuery)}&type=${searchType}`,
+          `${API_BASE_URL}/api/tweets/search?q=${encodeURIComponent(searchQuery)}&type=${searchType}`,
           {
             headers: { Authorization: `Bearer ${token}` }
           }
@@ -97,9 +98,10 @@ function Search() {
                 <div className="tweet-result">
                   <div className="tweet-result-header">
                     <img
-                      src={result.user.profilePicture 
-                        ? `http://localhost:5000${result.user.profilePicture}`
-                        : "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+                      src={
+                        result.user.profilePicture
+                          ? buildAssetUrl(result.user.profilePicture)
+                          : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'
                       }
                       alt={`@${result.user.username}`}
                       className="tweet-result-avatar"
@@ -112,7 +114,7 @@ function Search() {
                   <div className="tweet-result-content">{result.content}</div>
                   {result.image && (
                     <img
-                      src={`http://localhost:5000${result.image}`}
+                      src={buildAssetUrl(result.image)}
                       alt="Tweet attachment"
                       className="tweet-result-image"
                     />
@@ -124,9 +126,10 @@ function Search() {
                   onClick={() => handleUserClick(result.username)}
                 >
                   <img
-                    src={result.profilePicture 
-                      ? `http://localhost:5000${result.profilePicture}`
-                      : "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+                    src={
+                      result.profilePicture
+                        ? buildAssetUrl(result.profilePicture)
+                        : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'
                     }
                     alt={`@${result.username}`}
                     className="user-result-avatar"

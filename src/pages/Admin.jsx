@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import { API_BASE_URL, buildAssetUrl } from '../utils/constants';
 
 function Admin() {
   const [user, setUser] = useState(null);
@@ -18,8 +19,8 @@ function Admin() {
     (async () => {
       try {
         const [me, list] = await Promise.all([
-          axios.get('http://localhost:5000/api/auth/me', { headers: { Authorization: `Bearer ${token}` } }),
-          axios.get('http://localhost:5000/api/tweets', { headers: { Authorization: `Bearer ${token}` } })
+          axios.get(`${API_BASE_URL}/api/auth/me`, { headers: { Authorization: `Bearer ${token}` } }),
+          axios.get(`${API_BASE_URL}/api/tweets`, { headers: { Authorization: `Bearer ${token}` } })
         ]);
         if (!me.data.user?.isAdmin) {
           window.location.href = '/home';
@@ -40,7 +41,7 @@ function Admin() {
     const reason = reasonMap[tweetId] || 'Violation of community guidelines';
     if (!window.confirm('Delete this tweet?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/admin/tweets/${tweetId}`,
+      await axios.delete(`${API_BASE_URL}/api/admin/tweets/${tweetId}`,
         { data: { reason }, headers: { Authorization: `Bearer ${token}` } }
       );
       setTweets(prev => prev.filter(t => t._id !== tweetId));
@@ -69,7 +70,7 @@ function Admin() {
                 </div>
                 <div style={{ marginTop: 8 }}>{t.content}</div>
                 {t.image && (
-                  <img src={`http://localhost:5000${t.image}`} alt="attachment" style={{ maxWidth: '100%', borderRadius: 8, marginTop: 8 }} />
+                  <img src={buildAssetUrl(t.image)} alt="attachment" style={{ maxWidth: '100%', borderRadius: 8, marginTop: 8 }} />
                 )}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
                   <label htmlFor={`reason-${t._id}`} style={{ fontSize: 13, color: '#555' }}>

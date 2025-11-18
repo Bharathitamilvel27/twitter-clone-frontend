@@ -6,6 +6,7 @@ import Sidebar from '../components/Sidebar';
 import RightPanel from '../components/RightPanel';
 import './Home.css';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL, buildAssetUrl } from '../utils/constants';
 
 function Home() {
   const [user, setUser] = useState(null);
@@ -28,10 +29,10 @@ function Home() {
     }
 
     Promise.all([
-      axios.get('http://localhost:5000/api/auth/me', {
+      axios.get(`${API_BASE_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       }),
-      axios.get('http://localhost:5000/api/tweets', {
+      axios.get(`${API_BASE_URL}/api/tweets`, {
         headers: { Authorization: `Bearer ${token}` },
       }),
     ])
@@ -63,7 +64,7 @@ function Home() {
         formData.append('media', image);
 
         const uploadRes = await axios.post(
-          'http://localhost:5000/api/upload/tweet',
+          `${API_BASE_URL}/api/upload/tweet`,
           formData,
           {
             headers: {
@@ -81,7 +82,7 @@ function Home() {
 
       // ✅ Now post tweet with text and optional image
       const res = await axios.post(
-        'http://localhost:5000/api/tweets',
+        `${API_BASE_URL}/api/tweets`,
         { content: tweet, image: imageUrl, video: videoUrl },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -106,12 +107,12 @@ function Home() {
     const token = localStorage.getItem('token');
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/tweets/${tweetId}/like`,
+        `${API_BASE_URL}/api/tweets/${tweetId}/like`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
       // Refetch the tweet to get updated likes and likedByCurrentUser
-      const tweetRes = await axios.get(`http://localhost:5000/api/tweets`, {
+      const tweetRes = await axios.get(`${API_BASE_URL}/api/tweets`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTweets(tweetRes.data);
@@ -124,12 +125,12 @@ function Home() {
     const token = localStorage.getItem('token');
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/tweets/${tweetId}/retweet`,
+        `${API_BASE_URL}/api/tweets/${tweetId}/retweet`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
       // Refetch tweets to get updated retweet status
-      const tweetRes = await axios.get(`http://localhost:5000/api/tweets`, {
+      const tweetRes = await axios.get(`${API_BASE_URL}/api/tweets`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTweets(tweetRes.data);
@@ -176,12 +177,12 @@ function Home() {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        `http://localhost:5000/api/tweets/${tweetId}/comment`,
+        `${API_BASE_URL}/api/tweets/${tweetId}/comment`,
         { text },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       // Refetch the tweet to get updated comments
-      const tweetRes = await axios.get(`http://localhost:5000/api/tweets`, {
+      const tweetRes = await axios.get(`${API_BASE_URL}/api/tweets`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTweets(tweetRes.data);
@@ -247,9 +248,10 @@ function Home() {
               <div key={tweet._id} className="tweet-card">
                 <div className="tweet-user">
                   <img
-                    src={tweet.user.profilePicture 
-                      ? `http://localhost:5000${tweet.user.profilePicture}`
-                      : "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+                    src={
+                      tweet.user.profilePicture
+                        ? buildAssetUrl(tweet.user.profilePicture)
+                        : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'
                     }
                     alt={`@${tweet.user.username}`}
                     className="tweet-avatar"
@@ -273,7 +275,7 @@ function Home() {
 
                 {!tweet.isDeleted && tweet.image && (
                   <img
-                    src={`http://localhost:5000${tweet.image}`}
+                    src={buildAssetUrl(tweet.image)}
                     alt="Tweet attachment"
                     className="tweet-image"
                     style={{
@@ -286,7 +288,7 @@ function Home() {
                 {!tweet.isDeleted && tweet.video && (
                   <video
                     controls
-                    src={`http://localhost:5000${tweet.video}`}
+                    src={buildAssetUrl(tweet.video)}
                     className="tweet-image"
                     style={{ marginTop:'10px', maxWidth:'100%', borderRadius:'10px' }}
                   />

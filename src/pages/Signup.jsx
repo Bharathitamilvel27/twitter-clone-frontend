@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import twitterLogo from '../assets/twitter-logo.png';
 import './Signup.css'; // our custom CSS
+import { API_BASE_URL } from '../utils/constants';
 
 function Signup() {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
@@ -16,7 +17,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/auth/signup', formData);
+      await axios.post(`${API_BASE_URL}/api/auth/signup`, formData);
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'Signup failed');

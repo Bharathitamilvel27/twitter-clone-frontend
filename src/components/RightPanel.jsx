@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './RightPanel.css';
+import { API_BASE_URL, buildAssetUrl } from '../utils/constants';
 
 function RightPanel() {
   const [suggestedUsers, setSuggestedUsers] = useState([]);
@@ -14,13 +15,13 @@ function RightPanel() {
         const token = localStorage.getItem('token');
         if (token) {
           // fetch suggestions
-          const response = await axios.get('http://localhost:5000/api/auth/suggested-users', {
+          const response = await axios.get(`${API_BASE_URL}/api/auth/suggested-users`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setSuggestedUsers(response.data.users);
 
           // fetch trends
-          const trendsRes = await axios.get('http://localhost:5000/api/tweets/trends', {
+          const trendsRes = await axios.get(`${API_BASE_URL}/api/tweets/trends`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setTrends(trendsRes.data.trends || []);
@@ -63,9 +64,10 @@ function RightPanel() {
               <li key={user._id} className="suggested-user">
                 <div className="user-info">
                   <img
-                    src={user.profilePicture 
-                      ? `http://localhost:5000${user.profilePicture}`
-                      : "https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png"
+                    src={
+                      user.profilePicture
+                        ? buildAssetUrl(user.profilePicture)
+                        : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'
                     }
                     alt={`@${user.username}`}
                     className="suggested-avatar"
