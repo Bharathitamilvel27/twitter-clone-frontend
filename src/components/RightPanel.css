@@ -1,0 +1,121 @@
+.right-panel {
+  width: 250px;
+  flex-shrink: 0;
+  background-color: var(--bg-primary);
+  padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px var(--shadow-light);
+  border: 1px solid var(--border-color);
+  margin-top: 1.5rem;
+  height: fit-content;
+}
+
+.dark-mode .right-panel {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.panel-section {
+  margin-bottom: 2rem;
+}
+
+.panel-section:last-child {
+  margin-bottom: 0;
+}
+
+.panel-section h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.panel-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.panel-section li {
+  padding: 0.5rem 0;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-size: 0.95rem;
+  border-radius: 8px;
+}
+
+.panel-section li:hover {
+  background: var(--bg-tertiary);
+  color: var(--accent-color);
+}
+
+/* Suggested Users Styles */
+.suggested-user {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  gap: 0.5rem;
+}
+
+.suggested-user:last-child {
+  border-bottom: none;
+}
+
+.suggested-user:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.suggested-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.suggested-username {
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  margin-bottom: 2px;
+}
+
+.suggested-bio {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.3;
+  margin-top: 2px;
+}
+
+.loading-suggestions, .no-suggestions {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .right-panel {
+    display: none;
+  }
+}

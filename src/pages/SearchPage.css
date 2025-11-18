@@ -1,0 +1,20 @@
+.search-page-container {
+  flex: 1;
+  max-width: 600px;
+  padding: 1rem;
+  width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .search-page-container {
+    max-width: 100vw;
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-page-container {
+    padding: 0.25rem;
+  }
+} 

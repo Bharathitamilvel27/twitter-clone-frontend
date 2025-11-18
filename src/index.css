@@ -1,0 +1,181 @@
+:root {
+  /* Light Mode Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f9fa;
+  --bg-tertiary: #e6ecf0;
+  --text-primary: #0f1419;
+  --text-secondary: #657786;
+  --text-tertiary: #8899a6;
+  --border-color: #e1e8ed;
+  --accent-color: #1da1f2;
+  --accent-hover: #1a8cd8;
+  --shadow-light: rgba(0, 0, 0, 0.06);
+  --shadow-medium: rgba(0, 0, 0, 0.1);
+  --error-color: #e0245e;
+  --success-color: #17bf63;
+}
+
+.dark-mode {
+  /* Twitter-like Dark Mode Colors */
+  --bg-primary: #15202b;         /* Card/Panel background */
+  --bg-secondary: #192734;       /* Sidebar/Right panel */
+  --bg-tertiary: #22303c;        /* Main background */
+  --text-primary: #d9d9d9;       /* Main text */
+  --text-secondary: #8899a6;     /* Muted text */
+  --text-tertiary: #657786;
+  --border-color: #38444d;
+  --accent-color: #1da1f2;       /* Twitter blue */
+  --accent-hover: #1a8cd8;
+  --shadow-light: rgba(0,0,0,0.3);
+  --shadow-medium: rgba(0,0,0,0.5);
+  --error-color: #e0245e;
+  --success-color: #17bf63;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Global utility classes */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+}
+
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: var(--error-color);
+}
+
+/* Smooth transitions for theme switching */
+* {
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.logo {
+  width: 60px;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  color: #1DA1F2;
+  margin-bottom: 1rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #1DA1F2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0d8bd4;
+}
+
+.error-text {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+.footer-text {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.main-header, header {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+/* Card/Panel Styling */
+.sidebar, .right-panel, .tweet-card, .tweet-form, .profile-header, .profile-tweets, .profile-container, .search-container {
+  background: var(--bg-primary);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px var(--shadow-light);
+  border: 1px solid var(--border-color);
+}
+
+/* Panel backgrounds for dark mode */
+.dark-mode .sidebar, .dark-mode .right-panel {
+  background: var(--bg-secondary);
+}
