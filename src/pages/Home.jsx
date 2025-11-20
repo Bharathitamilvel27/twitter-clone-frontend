@@ -57,33 +57,51 @@ function Home() {
       let imageUrl = '';
       let videoUrl = '';
 
-      // ✅ Upload image if present
+      // ✅ Upload image/video if present
       if (image) {
         const formData = new FormData();
         // use unified 'media' field (backend supports legacy too)
         formData.append('media', image);
 
-        const uploadRes = await axios.post(
-          `${API_BASE_URL}/api/upload/tweet`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'multipart/form-data',
-            },
+        try {
+          const uploadRes = await axios.post(
+            `${API_BASE_URL}/api/upload/tweet`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data',
+              },
+            }
+          );
+          
+          if (uploadRes.data?.type === 'video' && uploadRes.data?.videoUrl) {
+            videoUrl = uploadRes.data.videoUrl;
+          } else if (uploadRes.data?.imageUrl) {
+            imageUrl = uploadRes.data.imageUrl;
+          } else if (uploadRes.data?.success) {
+            // Fallback for different response formats
+            imageUrl = uploadRes.data.imageUrl || uploadRes.data.videoUrl || '';
+            videoUrl = uploadRes.data.videoUrl || '';
           }
-        );
-        if (uploadRes.data?.type === 'video') {
-          videoUrl = uploadRes.data.videoUrl;
-        } else {
-          imageUrl = uploadRes.data.imageUrl;
+        } catch (uploadErr) {
+          console.error('Upload error:', uploadErr);
+          alert(uploadErr.response?.data?.message || 'Failed to upload media');
+          return; // Don't post tweet if upload fails
         }
       }
 
-      // ✅ Now post tweet with text and optional image
+      // ✅ Now post tweet with text and optional image/video
+      // Only send imageUrl/videoUrl if they have values
+      const tweetData = {
+        content: tweet.trim(),
+        ...(imageUrl && { image: imageUrl }),
+        ...(videoUrl && { video: videoUrl })
+      };
+
       const res = await axios.post(
         `${API_BASE_URL}/api/tweets`,
-        { content: tweet, image: imageUrl, video: videoUrl },
+        tweetData,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -99,7 +117,8 @@ function Home() {
       setPreview(null);
     } catch (err) {
       console.error('Tweet error:', err);
-      alert('Failed to post tweet');
+      const errorMsg = err.response?.data?.message || err.message || 'Failed to post tweet';
+      alert(errorMsg);
     }
   };
 
