@@ -29,6 +29,8 @@ function Profile() {
   const [showFollowing, setShowFollowing] = useState(false);
   const [followersList, setFollowersList] = useState([]);
   const [followingList, setFollowingList] = useState([]);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -265,10 +267,10 @@ function Profile() {
 
   return (
     <>
-      <Header username={currentUser?.username} />
+      <Header username={currentUser?.username} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
       
       <div className="main-layout">
-        <Sidebar />
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         
         <div className="profile-container">
           <div className="profile-header">
@@ -521,11 +523,30 @@ function Profile() {
                     )}
 
                     {!tweet.isDeleted && tweet.image && (
-                        <img
-                          src={buildAssetUrl(tweet.image)}
+                      <img
+                        src={buildAssetUrl(tweet.image)}
                         alt="Tweet attachment"
                         className="tweet-image"
+                        style={{ marginTop: '10px', maxWidth: '100%', borderRadius: '10px', display: 'block' }}
+                        onError={(e) => {
+                          console.error('Image load error:', tweet.image);
+                          e.target.style.display = 'none';
+                        }}
                       />
+                    )}
+                    {!tweet.isDeleted && tweet.video && (
+                      <video
+                        controls
+                        src={buildAssetUrl(tweet.video)}
+                        className="tweet-image"
+                        style={{ marginTop: '10px', maxWidth: '100%', borderRadius: '10px', display: 'block' }}
+                        onError={(e) => {
+                          console.error('Video load error:', tweet.video);
+                          e.target.style.display = 'none';
+                        }}
+                      >
+                        Your browser does not support the video tag.
+                      </video>
                     )}
 
                     <div className="tweet-footer">

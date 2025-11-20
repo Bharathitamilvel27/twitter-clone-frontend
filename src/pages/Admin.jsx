@@ -9,6 +9,7 @@ function Admin() {
   const [tweets, setTweets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reasonMap, setReasonMap] = useState({});
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -55,9 +56,9 @@ function Admin() {
 
   return (
     <>
-      <Header username={user?.username} />
+      <Header username={user?.username} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
       <div className="main-layout" style={{ display: 'flex' }}>
-        <Sidebar />
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <div style={{ flex: 1, padding: 20 }}>
           <h2>Admin Moderation</h2>
           <p>Logged in as: @{user?.username}</p>
@@ -70,7 +71,28 @@ function Admin() {
                 </div>
                 <div style={{ marginTop: 8 }}>{t.content}</div>
                 {t.image && (
-                  <img src={buildAssetUrl(t.image)} alt="attachment" style={{ maxWidth: '100%', borderRadius: 8, marginTop: 8 }} />
+                  <img 
+                    src={buildAssetUrl(t.image)} 
+                    alt="attachment" 
+                    style={{ maxWidth: '100%', borderRadius: 8, marginTop: 8, display: 'block' }} 
+                    onError={(e) => {
+                      console.error('Image load error:', t.image);
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                )}
+                {t.video && (
+                  <video
+                    controls
+                    src={buildAssetUrl(t.video)}
+                    style={{ maxWidth: '100%', borderRadius: 8, marginTop: 8, display: 'block' }}
+                    onError={(e) => {
+                      console.error('Video load error:', t.video);
+                      e.target.style.display = 'none';
+                    }}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
                 )}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
                   <label htmlFor={`reason-${t._id}`} style={{ fontSize: 13, color: '#555' }}>

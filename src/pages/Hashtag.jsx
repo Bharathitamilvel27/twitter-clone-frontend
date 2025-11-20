@@ -13,6 +13,7 @@ function Hashtag() {
   const [user, setUser] = useState(null);
   const [tweets, setTweets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -54,9 +55,9 @@ function Hashtag() {
 
   return (
     <>
-      <Header username={user?.username} />
+      <Header username={user?.username} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
       <div className="main-layout">
-        <Sidebar />
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         <div className="tweet-feed" style={{ flex: 1 }}>
           <h2 style={{ marginBottom: 10 }}>#{tag}</h2>
           <div className="tweet-list">
@@ -94,7 +95,11 @@ function Hashtag() {
                     src={buildAssetUrl(t.image)}
                     alt="Tweet attachment"
                     className="tweet-image"
-                    style={{ marginTop:'10px', maxWidth:'100%', borderRadius:'10px' }}
+                    style={{ marginTop:'10px', maxWidth:'100%', borderRadius:'10px', display: 'block' }}
+                    onError={(e) => {
+                      console.error('Image load error:', t.image);
+                      e.target.style.display = 'none';
+                    }}
                   />
                 )}
                 {!t.isDeleted && t.video && (
@@ -102,8 +107,14 @@ function Hashtag() {
                     controls
                     src={buildAssetUrl(t.video)}
                     className="tweet-image"
-                    style={{ marginTop:'10px', maxWidth:'100%', borderRadius:'10px' }}
-                  />
+                    style={{ marginTop:'10px', maxWidth:'100%', borderRadius:'10px', display: 'block' }}
+                    onError={(e) => {
+                      console.error('Video load error:', t.video);
+                      e.target.style.display = 'none';
+                    }}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
                 )}
 
                 <div className="tweet-footer">

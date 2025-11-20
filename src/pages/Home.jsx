@@ -20,6 +20,7 @@ function Home() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -227,10 +228,10 @@ function Home() {
 
   return (
     <>
-      <Header username={user?.username} />
+      <Header username={user?.username} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
 
       <div className="main-layout">
-        <Sidebar />
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
         <div className="tweet-feed">
           <h2 className="welcome-text">Hello, @{user?.username} 👋</h2>
@@ -301,6 +302,11 @@ function Home() {
                       marginTop: '10px',
                       maxWidth: '100%',
                       borderRadius: '10px',
+                      display: 'block'
+                    }}
+                    onError={(e) => {
+                      console.error('Image load error:', tweet.image);
+                      e.target.style.display = 'none';
                     }}
                   />
                 )}
@@ -309,8 +315,14 @@ function Home() {
                     controls
                     src={buildAssetUrl(tweet.video)}
                     className="tweet-image"
-                    style={{ marginTop:'10px', maxWidth:'100%', borderRadius:'10px' }}
-                  />
+                    style={{ marginTop:'10px', maxWidth:'100%', borderRadius:'10px', display: 'block' }}
+                    onError={(e) => {
+                      console.error('Video load error:', tweet.video);
+                      e.target.style.display = 'none';
+                    }}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
                 )}
 
                 <div className="tweet-footer">

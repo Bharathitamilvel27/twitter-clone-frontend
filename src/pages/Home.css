@@ -20,18 +20,44 @@ body {
   gap: 2rem;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .main-layout {
     flex-direction: column;
     padding-top: 60px;
     gap: 0;
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
   }
-  .sidebar, .right-panel {
+  .sidebar {
+    display: none; /* Hidden by default on mobile, shown via menu */
+  }
+  .right-panel {
     display: none;
   }
   .tweet-feed {
     max-width: 100vw;
     padding: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .tweet-card {
+    padding: 1rem;
+    margin: 0.5rem;
+    width: calc(100% - 1rem);
+    box-sizing: border-box;
+  }
+  .tweet-form {
+    padding: 1rem;
+    margin: 0.5rem;
+    width: calc(100% - 1rem);
+    box-sizing: border-box;
+  }
+  .tweet-image,
+  video.tweet-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
   }
 }
 

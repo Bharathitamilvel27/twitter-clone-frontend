@@ -4,7 +4,7 @@ import axios from 'axios';
 import './Sidebar.css';
 import { API_BASE_URL } from '../utils/constants';
 
-function Sidebar() {
+function Sidebar({ isOpen, onClose }) {
   const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -27,22 +27,32 @@ function Sidebar() {
   const goToProfile = () => {
     if (currentUser) {
       navigate(`/profile/${currentUser.username}`);
+      onClose?.(); // Close menu on mobile after navigation
     }
   };
 
+  const handleNav = (path) => {
+    navigate(path);
+    onClose?.(); // Close menu on mobile after navigation
+  };
+
   return (
-    <div className="sidebar">
-      <h2>Twitter</h2>
-      <ul>
-        <li onClick={() => navigate('/home')}>🏠 Home</li>
-        <li onClick={() => navigate('/search')}>🔍 Search</li>
-        <li onClick={goToProfile}>👤 Profile</li>
-        {currentUser?.isAdmin && (
-          <li onClick={() => navigate('/admin')}>🛡️ Admin</li>
-        )}
-        <li onClick={logout}>🚪 Logout</li>
-      </ul>
-    </div>
+    <>
+      {/* Mobile overlay */}
+      {isOpen && <div className="sidebar-overlay" onClick={onClose} />}
+      <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
+        <h2>Twitter</h2>
+        <ul>
+          <li onClick={() => handleNav('/home')}>🏠 Home</li>
+          <li onClick={() => handleNav('/search')}>🔍 Search</li>
+          <li onClick={goToProfile}>👤 Profile</li>
+          {currentUser?.isAdmin && (
+            <li onClick={() => handleNav('/admin')}>🛡️ Admin</li>
+          )}
+          <li onClick={logout}>🚪 Logout</li>
+        </ul>
+      </div>
+    </>
   );
 }
 

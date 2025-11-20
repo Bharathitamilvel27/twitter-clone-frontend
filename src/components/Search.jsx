@@ -117,7 +117,26 @@ function Search() {
                       src={buildAssetUrl(result.image)}
                       alt="Tweet attachment"
                       className="tweet-result-image"
+                      style={{ display: 'block' }}
+                      onError={(e) => {
+                        console.error('Image load error:', result.image);
+                        e.target.style.display = 'none';
+                      }}
                     />
+                  )}
+                  {result.video && (
+                    <video
+                      controls
+                      src={buildAssetUrl(result.video)}
+                      className="tweet-result-image"
+                      style={{ marginTop: '10px', maxWidth: '100%', borderRadius: '10px', display: 'block' }}
+                      onError={(e) => {
+                        console.error('Video load error:', result.video);
+                        e.target.style.display = 'none';
+                      }}
+                    >
+                      Your browser does not support the video tag.
+                    </video>
                   )}
                 </div>
               ) : (

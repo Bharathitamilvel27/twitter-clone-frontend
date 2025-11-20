@@ -12,6 +12,7 @@ function SearchPage() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -40,10 +41,10 @@ function SearchPage() {
 
   return (
     <>
-      <Header username={user?.username} />
+      <Header username={user?.username} onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
       
       <div className="main-layout">
-        <Sidebar />
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
         
         <div className="search-page-container">
           <Search />
