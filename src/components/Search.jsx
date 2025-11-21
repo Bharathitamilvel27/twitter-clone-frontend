@@ -112,7 +112,7 @@ function Search() {
                     </div>
                   </div>
                   <div className="tweet-result-content">{result.content}</div>
-                  {result.image && (
+                  {result.image && result.image.trim() && (
                     <img
                       src={buildAssetUrl(result.image)}
                       alt="Tweet attachment"
@@ -124,7 +124,7 @@ function Search() {
                       }}
                     />
                   )}
-                  {result.video && (
+                  {result.video && result.video.trim() && (
                     <video
                       controls
                       src={buildAssetUrl(result.video)}

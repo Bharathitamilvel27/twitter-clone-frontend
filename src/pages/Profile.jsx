@@ -522,7 +522,7 @@ function Profile() {
                       <div className="tweet-text">{tweet.content}</div>
                     )}
 
-                    {!tweet.isDeleted && tweet.image && (
+                    {!tweet.isDeleted && tweet.image && tweet.image.trim() && (
                       <img
                         src={buildAssetUrl(tweet.image)}
                         alt="Tweet attachment"
@@ -534,7 +534,7 @@ function Profile() {
                         }}
                       />
                     )}
-                    {!tweet.isDeleted && tweet.video && (
+                    {!tweet.isDeleted && tweet.video && tweet.video.trim() && (
                       <video
                         controls
                         src={buildAssetUrl(tweet.video)}

@@ -293,7 +293,7 @@ function Home() {
                   <div className="tweet-text">{renderContentWithHashtags(tweet.content)}</div>
                 )}
 
-                {!tweet.isDeleted && tweet.image && (
+                {!tweet.isDeleted && tweet.image && tweet.image.trim() && (
                   <img
                     src={buildAssetUrl(tweet.image)}
                     alt="Tweet attachment"
@@ -310,7 +310,7 @@ function Home() {
                     }}
                   />
                 )}
-                {!tweet.isDeleted && tweet.video && (
+                {!tweet.isDeleted && tweet.video && tweet.video.trim() && (
                   <video
                     controls
                     src={buildAssetUrl(tweet.video)}

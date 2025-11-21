@@ -90,7 +90,7 @@ function Hashtag() {
                   <div className="tweet-text">{renderContentWithHashtags(t.content)}</div>
                 )}
 
-                {!t.isDeleted && t.image && (
+                {!t.isDeleted && t.image && t.image.trim() && (
                   <img
                     src={buildAssetUrl(t.image)}
                     alt="Tweet attachment"
@@ -102,7 +102,7 @@ function Hashtag() {
                     }}
                   />
                 )}
-                {!t.isDeleted && t.video && (
+                {!t.isDeleted && t.video && t.video.trim() && (
                   <video
                     controls
                     src={buildAssetUrl(t.video)}

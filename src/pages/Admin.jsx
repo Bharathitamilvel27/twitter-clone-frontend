@@ -70,7 +70,7 @@ function Admin() {
                   <span style={{ color: '#888' }}>{new Date(t.createdAt).toLocaleString()}</span>
                 </div>
                 <div style={{ marginTop: 8 }}>{t.content}</div>
-                {t.image && (
+                {t.image && t.image.trim() && (
                   <img 
                     src={buildAssetUrl(t.image)} 
                     alt="attachment" 
@@ -81,7 +81,7 @@ function Admin() {
                     }}
                   />
                 )}
-                {t.video && (
+                {t.video && t.video.trim() && (
                   <video
                     controls
                     src={buildAssetUrl(t.video)}
