@@ -39,6 +39,14 @@ function Home() {
     ])
       .then(([userRes, tweetsRes]) => {
         setUser(userRes.data.user);
+        // Debug: log first few tweets to check image/video URLs
+        console.log('Tweets received:', tweetsRes.data.slice(0, 3).map(t => ({
+          id: t._id,
+          hasImage: !!t.image,
+          hasVideo: !!t.video,
+          image: t.image?.substring(0, 60),
+          video: t.video?.substring(0, 60)
+        })));
         setTweets(tweetsRes.data);
         setLoading(false);
       })
